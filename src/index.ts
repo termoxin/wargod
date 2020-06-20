@@ -1,30 +1,65 @@
 import { setupCanvas } from "./setup";
-import { drawUnit, createUnit } from "./units";
+import { drawWarrior, createWarrior } from "./units";
 import { isCollision } from "./isCollision";
-import { units } from "./store";
 
 export const { canvas, ctx } = setupCanvas();
 
 const app = document.getElementById("app");
 app.appendChild(canvas);
 
-document.addEventListener("click", (event) => {
-  const unit = createUnit({ x: event.clientX, y: event.clientY, color: "red" });
+const warriors = [
+  createWarrior({
+    x: 200,
+    y: 200,
+    width: 30,
+    height: 100,
+    initialHeath: 5000,
+    health: 5000,
+    force: 4,
+    color: "gray",
+  }),
+];
 
-  if (!isCollision(unit, units)) {
-    units.push(unit);
+document.addEventListener("click", (event) => {
+  const warrior = createWarrior({
+    x: event.clientX,
+    y: event.clientY,
+    color: "blue",
+    health: 200,
+    force: 10,
+    initialHeath: 200,
+    width: 5,
+    height: 5,
+  });
+
+  const { collisions, unit } = isCollision(warrior, warriors);
+
+  if (!collisions.length) {
+    warriors.push(warrior);
   }
 });
 
 const render = () => {
   ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-  units.forEach(drawUnit);
 
-  units.forEach((anotherUnit) => {
-    if (!isCollision(anotherUnit, units)) {
-      if (anotherUnit.color === "red") anotherUnit.x -= 1;
+  warriors.forEach((unit) => unit.health > 0 && drawWarrior(unit));
+
+  warriors.forEach((anotherUnit) => {
+    const { unit, collisions } = isCollision(anotherUnit, warriors);
+
+    if (!collisions.length) {
+      if (anotherUnit.color === "blue") anotherUnit.x -= 1;
     } else {
-      console.log("collision");
+      warriors[1].health -= unit.force;
+      unit.health -= warriors[1].force;
+
+      if (warriors[1].health < 0) {
+        warriors[1].visible = false;
+      }
+
+      if (unit.health < 0) {
+        unit.visible = false;
+      }
     }
   });
 

@@ -1,5 +1,11 @@
 import { Unit } from "./units";
-export const isCollision = (unit: Unit, units: Unit[]): boolean => {
+
+interface IsCollisionOutput {
+  unit: any;
+  collisions: any[];
+}
+
+export const isCollision = (unit: Unit, units: any): IsCollisionOutput => {
   const collisions = [];
 
   units.forEach((anotherUnit) => {
@@ -10,10 +16,16 @@ export const isCollision = (unit: Unit, units: Unit[]): boolean => {
       unit.y > anotherUnit.y - anotherUnit.height + 1 &&
       unit.y < anotherUnit.y + anotherUnit.height + 1;
 
-    if (isInX && isInY && anotherUnit.id !== unit.id) {
+    if (
+      isInX &&
+      isInY &&
+      anotherUnit.id !== unit.id &&
+      unit.visible &&
+      anotherUnit.visible
+    ) {
       collisions.push(anotherUnit);
     }
   });
 
-  return !!collisions.length;
+  return { unit, collisions };
 };
