@@ -13,31 +13,45 @@ const warriors = [
     y: 200,
     width: 30,
     height: 100,
-    initialHeath: 5000,
-    health: 5000,
-    force: 4,
+    initialHeath: 10000,
+    health: 10000,
+    force: 25,
     color: "gray",
   }),
 ];
 
-document.addEventListener("click", (event) => {
-  const warrior = createWarrior({
-    x: event.clientX,
-    y: event.clientY,
-    color: "blue",
-    health: 200,
-    force: 10,
-    initialHeath: 200,
-    width: 5,
-    height: 5,
-  });
+let mousedown = false;
 
-  const { collisions, unit } = isCollision(warrior, warriors);
+document.addEventListener("mousedown", () => {
+  mousedown = true;
+});
 
-  if (!collisions.length) {
-    warriors.push(warrior);
+document.addEventListener("mouseup", () => {
+  mousedown = false;
+});
+
+document.addEventListener("mousemove", (event) => {
+  if (mousedown) {
+    const warrior = createWarrior({
+      x: event.clientX,
+      y: event.clientY,
+      color: "blue",
+      health: 200,
+      force: 10,
+      initialHeath: 200,
+      width: 5,
+      height: 5,
+    });
+
+    const { collisions } = isCollision(warrior, warriors);
+
+    if (!collisions.length) {
+      warriors.push(warrior);
+    }
   }
 });
+
+document.addEventListener("click", (event) => {});
 
 const render = () => {
   ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
@@ -48,13 +62,13 @@ const render = () => {
     const { unit, collisions } = isCollision(anotherUnit, warriors);
 
     if (!collisions.length) {
-      if (anotherUnit.color === "blue") anotherUnit.x -= 1;
+      if (anotherUnit.color !== "gray") anotherUnit.x -= 1;
     } else {
-      warriors[1].health -= unit.force;
-      unit.health -= warriors[1].force;
+      warriors[0].health -= unit.force;
+      unit.health -= warriors[0].force;
 
-      if (warriors[1].health < 0) {
-        warriors[1].visible = false;
+      if (warriors[0].health < 0) {
+        warriors[0].visible = false;
       }
 
       if (unit.health < 0) {
