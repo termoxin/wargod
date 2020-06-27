@@ -11,7 +11,7 @@ export const calculateCollisionDamage = (unit, state, collisions) => {
     );
 
     if (entity && unit.color !== entity.color) {
-      if (entity.visible && unit.color !== "blue") {
+      if (entity.visible && unit.color !== "blue" && unit.color !== "black") {
         unit.health -= entity.force;
       }
 

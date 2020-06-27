@@ -8,7 +8,9 @@ export const paintUnits = () =>
       if (
         unit.visible &&
         unit.health > 0 &&
-        (unit.color === "blue" || unit.color === "gray")
+        (unit.color === "blue" ||
+          unit.color === "gray" ||
+          unit.color === "black")
       ) {
         drawWarrior(unit);
       }

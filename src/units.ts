@@ -1,6 +1,5 @@
 import { v4 } from "uuid";
-import { SCALE } from "./setup";
-import { ctx } from "./index";
+import { SCALE, ctx } from "./canvas";
 
 export interface Unit {
   id?: string;

@@ -5,8 +5,56 @@
     <link rel="stylesheet" href="./styles.scss" />
   </head>
   <body>
-    <div id="app"></div>
-    <div id="debug"></div>
+    <main>
+      <div id="app"></div>
+      <div id="ui" class="ui">
+        <div>
+          <h1>UI</h1>
+          <form id="select-warrior" class="select-warrior">
+            <div>
+              <label for="blue">Blue warrior</label>
+              <input type="radio" name="type" id="blue" value="blue" checked />
+            </div>
+            <div>
+              <label for="gray">Gray warrior</label>
+              <input type="radio" name="type" id="gray" value="gray" />
+            </div>
+            <div>
+              <label for="black">Tank (neutral unit)</label>
+              <input type="radio" name="type" id="black" value="black" />
+            </div>
+            <div>
+              <label for="violet">Turret</label>
+              <input type="radio" name="type" id="violet" value="violet" />
+            </div>
+          </form>
+          <form id="configure-warrior" class="configure-warrior">
+            <div>
+              <label for="health">Health</label>
+              <input
+                type="range"
+                name="health"
+                id="health"
+                step="50"
+                value="200"
+                max="10000"
+              />
+            </div>
+            <div>
+              <label for="force">Force</label>
+              <input
+                type="range"
+                name="force"
+                id="force"
+                step="1"
+                value="2"
+                max="100"
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
     <script src="../src/index.ts"></script>
   </body>
 </html>

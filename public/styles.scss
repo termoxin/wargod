@@ -6,6 +6,41 @@
   box-sizing: border-box;
 }
 
+html {
+  font-size: 15px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 canvas {
   background: #e4e4e4;
+}
+
+main {
+  display: flex;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+}
+
+.ui {
+  padding: 15px;
+
+  .select-warrior {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+
+    div {
+      width: 150px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  .configure-warrior {
+    margin-top: 20px;
+  }
 }

@@ -1,12 +1,11 @@
 import { paintUnits } from "./painter";
 import { Store } from "./store";
-import { setupCanvas, SCALE } from "./setup";
+import { SCALE } from "./canvas";
 import { createWarrior, createTurret } from "./units";
 import { isCollision } from "./isCollision";
 import { observer } from "./observer/observer";
 import "./eventListeners";
-
-export const { canvas, ctx } = setupCanvas();
+import { canvas, ctx } from "./canvas";
 
 const app = document.getElementById("app");
 app.appendChild(canvas);

@@ -4,8 +4,8 @@ export const setupCanvas = () => {
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
 
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  canvas.width = 1100;
+  canvas.height = 500;
 
   const pixelRatio = window.devicePixelRatio || 1;
 
@@ -23,3 +23,5 @@ export const setupCanvas = () => {
 
   return { canvas, ctx };
 };
+
+export const { canvas, ctx } = setupCanvas();
