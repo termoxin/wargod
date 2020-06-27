@@ -9,25 +9,25 @@ export const isCollision = (unit: Unit, units: any): IsCollisionOutput => {
   const collisions = [];
 
   units.forEach((anotherUnit) => {
-    if (anotherUnit.color !== "violet") {
-      const isInX =
-        unit.x >= anotherUnit.x - unit.width &&
-        unit.x <= anotherUnit.x + anotherUnit.width;
+    const isInX =
+      unit.x >= anotherUnit.x - unit.width &&
+      unit.x <= anotherUnit.x + anotherUnit.width;
 
-      const isInY =
-        unit.y > anotherUnit.y - unit.height &&
-        unit.y < anotherUnit.y + anotherUnit.height;
+    const isInY =
+      unit.y > anotherUnit.y - unit.height &&
+      unit.y < anotherUnit.y + anotherUnit.height;
 
-      if (
-        isInX &&
-        isInY &&
-        anotherUnit.id !== unit.id &&
-        unit.visible &&
-        anotherUnit.visible
-      ) {
-        collisions.push(anotherUnit);
-      }
-    } else {
+    if (
+      isInX &&
+      isInY &&
+      anotherUnit.id !== unit.id &&
+      unit.visible &&
+      anotherUnit.visible
+    ) {
+      collisions.push(anotherUnit);
+    }
+
+    if (anotherUnit.color === "violet") {
       const circle = {
         x: anotherUnit.x + anotherUnit.width / 2,
         y: anotherUnit.y + anotherUnit.width / 2,
@@ -43,7 +43,7 @@ export const isCollision = (unit: Unit, units: any): IsCollisionOutput => {
 
       if (anotherUnit.id !== unit.id) {
         if (rectCircleColliding(circle, rect)) {
-          collisions.push(anotherUnit);
+          collisions.push({ ...anotherUnit, withinRadius: true });
         }
       }
     }

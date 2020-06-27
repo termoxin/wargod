@@ -15,40 +15,6 @@ const initialState = {
   units: [],
 };
 
-for (let x = 0; x < 10; x++) {
-  for (let y = 0; y < 10; y++) {
-    initialState.units.push(
-      createWarrior({
-        x: Math.round(Math.random() * 500) - 400,
-        y: Math.round(Math.random() * 750),
-        width: 10,
-        height: 10,
-        initialHeath: 1000,
-        health: 1000,
-        force: 1.5,
-        color: "gray",
-      })
-    );
-  }
-}
-
-for (let x = 0; x < 10; x++) {
-  for (let y = 0; y < 10; y++) {
-    initialState.units.push(
-      createWarrior({
-        x: Math.round(Math.random() * 500) + 1000,
-        y: Math.round(Math.random() * 750),
-        width: 10,
-        height: 10,
-        initialHeath: 1000,
-        health: 1000,
-        force: 1.5,
-        color: "blue",
-      })
-    );
-  }
-}
-
 Store.getInstance(initialState);
 
 export const globalCollision = {};

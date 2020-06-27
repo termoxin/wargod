@@ -1,6 +1,6 @@
 import { Store } from "./store";
 import { isCollision } from "./isCollision";
-import { createWarrior } from "./units";
+import { createWarrior, createTurret } from "./units";
 
 let mouseDown = false;
 
@@ -18,9 +18,9 @@ document.addEventListener("mousemove", (event) => {
       x: event.clientX,
       y: event.clientY,
       color: "blue",
-      health: 100,
-      force: 1,
-      initialHeath: 100,
+      health: 5,
+      force: 200,
+      initialHeath: 5,
       width: 5,
       height: 5,
     });
@@ -39,22 +39,27 @@ document.addEventListener("mousemove", (event) => {
 });
 
 document.addEventListener("click", (event) => {
-  const warrior = createWarrior({
+  const warrior = createTurret({
     x: event.clientX,
     y: event.clientY,
-    color: "blue",
-    health: 1000000,
-    force: 1,
-    initialHeath: 1000000,
-    width: 15,
-    height: 2,
+    color: "violet",
+    health: 50,
+    force: 5,
+    initialHeath: 50,
+    width: 5,
+    height: 8,
+    radius: 50,
   });
+
   const { collisions } = isCollision(
     warrior,
     Store.getInstance().getState().units
   );
 
-  if (!collisions.length) {
+  if (
+    !collisions.filter((col) => !col.withinRadius).length ||
+    !collisions.length
+  ) {
     Store.getInstance().setState({
       units: [...Store.getInstance().getState().units, warrior],
     });
