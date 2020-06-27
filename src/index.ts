@@ -1,80 +1,89 @@
-import { setupCanvas } from "./setup";
-import { drawWarrior, createWarrior } from "./units";
+import { paintUnits } from "./painter";
+import { Store } from "./store";
+import { setupCanvas, SCALE } from "./setup";
+import { createWarrior, createTurret } from "./units";
 import { isCollision } from "./isCollision";
+import { observer } from "./observer/observer";
+import "./eventListeners";
 
 export const { canvas, ctx } = setupCanvas();
 
 const app = document.getElementById("app");
 app.appendChild(canvas);
 
-const warriors = [
-  createWarrior({
-    x: 200,
-    y: 200,
-    width: 30,
-    height: 100,
-    initialHeath: 10000,
-    health: 10000,
-    force: 25,
-    color: "gray",
-  }),
-];
+const initialState = {
+  units: [],
+};
 
-let mousedown = false;
+for (let x = 0; x < 10; x++) {
+  for (let y = 0; y < 10; y++) {
+    initialState.units.push(
+      createWarrior({
+        x: Math.round(Math.random() * 500) - 400,
+        y: Math.round(Math.random() * 750),
+        width: 10,
+        height: 10,
+        initialHeath: 1000,
+        health: 1000,
+        force: 1.5,
+        color: "gray",
+      })
+    );
+  }
+}
 
-document.addEventListener("mousedown", () => {
-  mousedown = true;
-});
+for (let x = 0; x < 10; x++) {
+  for (let y = 0; y < 10; y++) {
+    initialState.units.push(
+      createWarrior({
+        x: Math.round(Math.random() * 500) + 1000,
+        y: Math.round(Math.random() * 750),
+        width: 10,
+        height: 10,
+        initialHeath: 1000,
+        health: 1000,
+        force: 1.5,
+        color: "blue",
+      })
+    );
+  }
+}
 
-document.addEventListener("mouseup", () => {
-  mousedown = false;
-});
+Store.getInstance(initialState);
 
-document.addEventListener("mousemove", (event) => {
-  if (mousedown) {
-    const warrior = createWarrior({
-      x: event.clientX,
-      y: event.clientY,
-      color: "blue",
-      health: 200,
-      force: 10,
-      initialHeath: 200,
-      width: 5,
-      height: 5,
+export const globalCollision = {};
+
+const render = (timestamp?: number) => {
+  const units = Store.getInstance().getState().units;
+
+  ctx.clearRect(0, 0, window.innerWidth / SCALE, window.innerHeight / SCALE);
+
+  paintUnits();
+
+  units.forEach((anotherUnit) => {
+    const localCollision = isCollision(
+      anotherUnit,
+      Store.getInstance().getState().units
+    );
+
+    localCollision.collisions.forEach((cola) => {
+      if (globalCollision[cola.id]) {
+        const isUnique = globalCollision[cola.id].find(
+          (u) => u.id === localCollision.unit.id
+        );
+
+        if (!isUnique) {
+          globalCollision[cola.id] = [
+            ...globalCollision[cola.id],
+            localCollision.unit,
+          ];
+        }
+      } else {
+        globalCollision[cola.id] = [localCollision.unit];
+      }
     });
 
-    const { collisions } = isCollision(warrior, warriors);
-
-    if (!collisions.length) {
-      warriors.push(warrior);
-    }
-  }
-});
-
-document.addEventListener("click", (event) => {});
-
-const render = () => {
-  ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-
-  warriors.forEach((unit) => unit.health > 0 && drawWarrior(unit));
-
-  warriors.forEach((anotherUnit) => {
-    const { unit, collisions } = isCollision(anotherUnit, warriors);
-
-    if (!collisions.length) {
-      if (anotherUnit.color !== "gray") anotherUnit.x -= 1;
-    } else {
-      warriors[0].health -= unit.force;
-      unit.health -= warriors[0].force;
-
-      if (warriors[0].health < 0) {
-        warriors[0].visible = false;
-      }
-
-      if (unit.health < 0) {
-        unit.visible = false;
-      }
-    }
+    observer(anotherUnit, units, globalCollision, localCollision, timestamp);
   });
 
   requestAnimationFrame(render);
