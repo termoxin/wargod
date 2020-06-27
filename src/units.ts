@@ -18,6 +18,10 @@ export interface Warrior extends Unit {
   force: number;
 }
 
+export interface Turret extends Warrior {
+  radius: number;
+}
+
 export const createUnit = ({
   width = 10,
   height = 10,
@@ -71,4 +75,24 @@ export const drawWarrior = (options: Warrior) => {
   ctx.fillStyle = "red";
   ctx.fillRect(x, y + height + 2, width * healthRadio, 1);
   ctx.closePath();
+};
+
+export const createTurret = (options: Turret) => {
+  const warrior = createWarrior(options);
+
+  return warrior;
+};
+
+export const drawTurret = (options: Turret) => {
+  drawWarrior(options);
+
+  ctx.beginPath();
+  ctx.arc(
+    options.x + options.width / 2,
+    options.y + options.height / 2,
+    options.radius,
+    0,
+    2 * Math.PI
+  );
+  ctx.stroke();
 };
