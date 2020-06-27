@@ -25,3 +25,38 @@ export const units: Unit[] = [
     )
     .filter(Boolean),
 ];
+
+interface Storage {
+  units: any;
+}
+
+export class Store {
+  private static instance: Store;
+
+  constructor(initialStore: Storage) {
+    this.store = initialStore || {
+      units: [],
+    };
+  }
+
+  private store: Storage;
+
+  static getInstance(initialStore?: Storage): Store {
+    if (!Store.instance) {
+      Store.instance = new Store(initialStore);
+    }
+
+    return Store.instance;
+  }
+
+  getState() {
+    return this.store;
+  }
+
+  setState(newState: Partial<Storage>) {
+    this.store = {
+      ...this.store,
+      ...newState,
+    };
+  }
+}
