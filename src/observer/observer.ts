@@ -1,6 +1,5 @@
 import { Store } from "../store";
 import { calculateCollisionDamage } from "./calculateCollisionDamage";
-import { createWarrior } from "../units";
 
 let started = true;
 
@@ -28,9 +27,9 @@ export const observer = (
 
   if (started) {
     if (unit.color === "gray" && shouldMove) {
-      unit.x += 1;
+      unit.x += Math.random() * Math.random();
     } else if (unit.color === "blue" && shouldMove) {
-      unit.x -= 1;
+      unit.x -= Math.random() * Math.random();
   }
 
   calculateCollisionDamage(unit, state, localCollision);
