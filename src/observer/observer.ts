@@ -27,9 +27,9 @@ export const observer = (
 
   if (started) {
     if (unit.color === "gray" && shouldMove) {
-      unit.x += Math.random() * Math.random();
+      unit.x += 1;
     } else if (unit.color === "blue" && shouldMove) {
-      unit.x -= Math.random() * Math.random();
+      unit.x -=1;
   }
 
   calculateCollisionDamage(unit, state, localCollision);

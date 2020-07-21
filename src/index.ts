@@ -51,6 +51,14 @@ const render = (timestamp?: number) => {
     observer(anotherUnit, units, globalCollision, localCollision, timestamp);
   });
 
+  Store.getInstance().setState({
+    units: Store.getInstance()
+      .getState()
+      .units.filter(
+        (unit) => unit.health >= 0 && unit.x <= canvas.width / (SCALE * 2)
+      ),
+  });
+
   requestAnimationFrame(render);
 };
 
