@@ -2,11 +2,13 @@ import { Unit, createUnit } from "./units";
 
 export const units: Unit[] = [];
 
-interface Storage {
+export interface Storage {
   units: any;
   selectedWarrior?: string;
   health?: number;
   force?: number;
+  team: string;
+  coins: number;
 }
 
 export class Store {
@@ -15,6 +17,8 @@ export class Store {
   constructor(initialStore: Storage) {
     this.store = initialStore || {
       units: [],
+      team: "blue",
+      coins: 1000,
     };
 
     this.store.selectedWarrior = "blue";
