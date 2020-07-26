@@ -1,5 +1,6 @@
 import { Store } from "./store";
 import { drawWarrior, drawTurret } from "./units";
+import { ctx } from "./canvas";
 
 export const paintUnits = () =>
   Store.getInstance()
@@ -19,3 +20,9 @@ export const paintUnits = () =>
         drawTurret(unit as any);
       }
     });
+
+export const paintCoins = () => {
+  const { coins } = Store.getInstance().getState();
+  ctx.fillStyle = "#6b3030";
+  ctx.fillText(`Coins: ${coins}`, 480, 20);
+};
