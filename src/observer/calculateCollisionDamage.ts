@@ -15,6 +15,17 @@ export const calculateCollisionDamage = (unit, state, collisions) => {
         unit.health -= entity.force;
       }
 
+      if (unit.health <= 0) {
+        const instance = Store.getInstance();
+        const { team, coins } = instance.getState();
+
+        if (unit.color === team) {
+          instance.setState({
+            coins: coins + 2,
+          });
+        }
+      }
+
       if (!entityWithinRadius) {
         entity.health -= unit.force;
       }
