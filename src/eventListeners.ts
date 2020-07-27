@@ -1,7 +1,9 @@
 import { Store } from "./store";
 import { isCollision } from "./isCollision";
-import { createWarrior, createTurret } from "./units";
+import { createWarrior, createTurret } from "./units/units";
 import { canvas } from "./canvas";
+import { spendCoins } from "./currency/spendCoins";
+import { currency } from "../config/defaultConfig.json";
 
 const warriorSelector = document.getElementById("select-warrior");
 const configureWarrior = document.getElementById("configure-warrior");
@@ -17,13 +19,11 @@ canvas.addEventListener("mouseup", () => {
 });
 
 canvas.addEventListener("mousemove", (event) => {
-  const state = Store.getInstance().getState();
-
   if (mouseDown) {
     const { health, force, selectedWarrior } = Store.getInstance().getState();
     let warrior;
 
-    if (selectedWarrior === "violet") {
+    if (selectedWarrior === "violet" && spendCoins(currency.prices.violet)) {
       warrior = createTurret({
         x: event.clientX,
         y: event.clientY,
@@ -36,27 +36,42 @@ canvas.addEventListener("mousemove", (event) => {
         radius: 50,
       });
     } else if (selectedWarrior === "blue" || selectedWarrior === "gray") {
-      warrior = createWarrior({
-        x: event.clientX,
-        y: event.clientY,
-        color: selectedWarrior,
-        health,
-        force,
-        initialHeath: health,
-        width: 5,
-        height: 5,
-      });
+      if (selectedWarrior === "blue" && spendCoins(currency.prices.blue)) {
+        warrior = createWarrior({
+          x: event.clientX,
+          y: event.clientY,
+          color: selectedWarrior,
+          health,
+          force,
+          initialHeath: health,
+          width: 5,
+          height: 5,
+        });
+      } else if (selectedWarrior === "gray") {
+        warrior = createWarrior({
+          x: event.clientX,
+          y: event.clientY,
+          color: selectedWarrior,
+          health,
+          force,
+          initialHeath: health,
+          width: 5,
+          height: 5,
+        });
+      }
     } else {
-      warrior = createWarrior({
-        x: event.clientX,
-        y: event.clientY,
-        color: selectedWarrior,
-        health: 5000,
-        force: 0.5,
-        initialHeath: 5000,
-        width: 8,
-        height: 8,
-      });
+      if (spendCoins(currency.prices.black)) {
+        warrior = createWarrior({
+          x: event.clientX,
+          y: event.clientY,
+          color: selectedWarrior,
+          health: 5000,
+          force: 0.5,
+          initialHeath: 5000,
+          width: 8,
+          height: 8,
+        });
+      }
     }
 
     const { collisions } = isCollision(
@@ -95,7 +110,7 @@ canvas.addEventListener("click", (event) => {
   } = Store.getInstance().getState();
   let warrior;
 
-  if (selectedWarrior === "violet") {
+  if (selectedWarrior === "violet" && spendCoins(currency.prices.violet)) {
     warrior = createTurret({
       x: event.clientX,
       y: event.clientY,
@@ -108,27 +123,42 @@ canvas.addEventListener("click", (event) => {
       radius: 50,
     });
   } else if (selectedWarrior === "blue" || selectedWarrior === "gray") {
-    warrior = createWarrior({
-      x: event.clientX,
-      y: event.clientY,
-      color: selectedWarrior,
-      health,
-      force,
-      initialHeath: health,
-      width: 5,
-      height: 5,
-    });
+    if (selectedWarrior === "blue" && spendCoins(currency.prices.blue)) {
+      warrior = createWarrior({
+        x: event.clientX,
+        y: event.clientY,
+        color: selectedWarrior,
+        health,
+        force,
+        initialHeath: health,
+        width: 10,
+        height: 10,
+      });
+    } else if (selectedWarrior === "gray") {
+      warrior = createWarrior({
+        x: event.clientX,
+        y: event.clientY,
+        color: selectedWarrior,
+        health,
+        force,
+        initialHeath: health,
+        width: 5,
+        height: 5,
+      });
+    }
   } else {
-    warrior = createWarrior({
-      x: event.clientX,
-      y: event.clientY,
-      color: selectedWarrior,
-      health: 5000,
-      force: 0.5,
-      initialHeath: 5000,
-      width: 8,
-      height: 8,
-    });
+    if (spendCoins(currency.prices.black)) {
+      warrior = createWarrior({
+        x: event.clientX,
+        y: event.clientY,
+        color: selectedWarrior,
+        health: 5000,
+        force: 0.5,
+        initialHeath: 5000,
+        width: 8,
+        height: 8,
+      });
+    }
   }
 
   const { collisions } = isCollision(warrior, units);
