@@ -1,0 +1,18 @@
+{
+  "moneyForKillingEnemy": 2,
+  "agressionRadius": 10,
+  "currency": {
+    "killingReward": 2,
+    "prices": {
+      "violet": 15,
+      "black": 10,
+      "blue": 2
+    }
+  },
+  "attackSpeed": {
+    "top": 0.5,
+    "bottom": 0.5,
+    "right": 0.25,
+    "left": 0.25
+  }
+}
