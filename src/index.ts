@@ -1,9 +1,8 @@
-import { paintUnits } from "./painter";
-import { Store } from "./store";
+import { paintUnits, paintCoins } from "./painter";
+import { Store } from "./store/store";
 import { SCALE } from "./canvas";
-import { createWarrior, createTurret } from "./units";
 import { isCollision } from "./isCollision";
-import { observer } from "./observer/observer";
+import { visitor } from "./visitor/visitor";
 import "./eventListeners";
 import { canvas, ctx } from "./canvas";
 
@@ -12,18 +11,21 @@ app.appendChild(canvas);
 
 const initialState = {
   units: [],
+  coins: 1000,
+  team: "gray",
 };
 
 Store.getInstance(initialState);
 
 export const globalCollision = {};
 
-const render = (timestamp?: number) => {
+const render = () => {
   const units = Store.getInstance().getState().units;
 
   ctx.clearRect(0, 0, window.innerWidth / SCALE, window.innerHeight / SCALE);
 
   paintUnits();
+  paintCoins();
 
   units.forEach((anotherUnit) => {
     const localCollision = isCollision(
@@ -48,7 +50,7 @@ const render = (timestamp?: number) => {
       }
     });
 
-    observer(anotherUnit, units, globalCollision, localCollision, timestamp);
+    visitor({ unit: anotherUnit, units, globalCollision, localCollision });
   });
 
   Store.getInstance().setState({
