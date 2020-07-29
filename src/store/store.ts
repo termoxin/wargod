@@ -1,15 +1,7 @@
-import { Unit, createUnit } from "./units";
+import { Storage } from "./../types";
+import { Unit } from "../types";
 
 export const units: Unit[] = [];
-
-export interface Storage {
-  units: any;
-  selectedWarrior?: string;
-  health?: number;
-  force?: number;
-  team: string;
-  coins: number;
-}
 
 export class Store {
   private static instance: Store;
