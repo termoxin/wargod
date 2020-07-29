@@ -1,4 +1,4 @@
-import { Store } from "./store";
+import { Store } from "./store/store";
 import { isCollision } from "./isCollision";
 import { createWarrior, createTurret } from "./units/units";
 import { canvas } from "./canvas";
