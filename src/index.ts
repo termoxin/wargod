@@ -9,13 +9,7 @@ import { canvas, ctx } from "./canvas";
 const app = document.getElementById("app");
 app.appendChild(canvas);
 
-const initialState = {
-  units: [],
-  coins: 1000,
-  team: "gray",
-};
-
-Store.getInstance(initialState);
+Store.getInstance();
 
 export const globalCollision = {};
 

@@ -8,6 +8,14 @@ import { currency } from "../config/defaultConfig.json";
 const warriorSelector = document.getElementById("select-warrior");
 const configureWarrior = document.getElementById("configure-warrior");
 
+const { selectedWarrior } = Store.getInstance().getState();
+
+[...warriorSelector.children].forEach((e) => {
+  if (selectedWarrior === e.children[1].value) {
+    e.children[1].checked = true;
+  }
+});
+
 let mouseDown = false;
 
 canvas.addEventListener("mousedown", () => {
