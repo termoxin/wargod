@@ -1,25 +1,6 @@
+import { Unit, Warrior, Turret } from "./../types/index";
 import { v4 } from "uuid";
-import { SCALE, ctx } from "./canvas";
-
-export interface Unit {
-  id?: string;
-  x: number;
-  y: number;
-  width?: number;
-  height?: number;
-  color?: string;
-  visible?: boolean;
-}
-
-export interface Warrior extends Unit {
-  initialHeath: number;
-  health: number;
-  force: number;
-}
-
-export interface Turret extends Warrior {
-  radius: number;
-}
+import { SCALE, ctx } from "../canvas";
 
 export const createUnit = ({
   width = 10,

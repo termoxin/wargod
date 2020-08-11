@@ -1,6 +1,8 @@
-import { Store } from "./store";
-import { drawWarrior, drawTurret } from "./units";
+import { Store } from "./store/store";
+import { drawWarrior, drawTurret } from "./units/units";
 import { ctx } from "./canvas";
+
+const unitsPainterAbleToPaint = ["blue", "gray", "black"];
 
 export const paintUnits = () =>
   Store.getInstance()
@@ -9,9 +11,7 @@ export const paintUnits = () =>
       if (
         unit.visible &&
         unit.health > 0 &&
-        (unit.color === "blue" ||
-          unit.color === "gray" ||
-          unit.color === "black")
+        unitsPainterAbleToPaint.indexOf(unit.color) > -1
       ) {
         drawWarrior(unit);
       }

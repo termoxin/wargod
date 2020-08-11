@@ -1,5 +1,7 @@
-import { Store } from "../store";
+import { getShouldMove } from "./getShouldMove";
+import { Store } from "../store/store";
 import { calculateCollisionDamage } from "./calculateCollisionDamage";
+import { attackNearestEnemy } from "./agression";
 
 let started = true;
 
@@ -9,27 +11,23 @@ document.addEventListener("keyup", (event) => {
   }
 });
 
-export const observer = (
-  unit,
-  units,
-  globalCollision,
-  localCollision,
-  timestamp
-) => {
+export const visitor = ({ unit, units, globalCollision, localCollision }) => {
   const state = {
     ...Store.getInstance().getState(),
   };
 
-  const shouldMove =
-    !globalCollision[unit.id]?.filter(
-      (u) => u.health > 0 && u.color !== unit.color
-    )?.length || globalCollision[unit.id]?.every((u) => u.color === unit.color);
+  const shouldMove = getShouldMove(globalCollision, unit);
+
+  if (shouldMove && unit.color !== "black") {
+    attackNearestEnemy(unit, units);
+  }
 
   if (started) {
     if (unit.color === "gray" && shouldMove) {
-      unit.x += 1;
+      unit.x += 0.1;
     } else if (unit.color === "blue" && shouldMove) {
-      unit.x -=1;
+      unit.x -= 0.1;
+    }
   }
 
   calculateCollisionDamage(unit, state, localCollision);

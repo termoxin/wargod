@@ -1,11 +1,14 @@
-import { Unit } from "./units";
+import { Unit, AllUnits } from "./types";
 
 interface IsCollisionOutput {
-  unit: any;
-  collisions: any[];
+  unit: AllUnits;
+  collisions: AllUnits[];
 }
 
-export const isCollision = (unit: Unit, units: any): IsCollisionOutput => {
+export const isCollision = (
+  unit: AllUnits,
+  units: AllUnits[]
+): IsCollisionOutput => {
   const collisions = [];
 
   units.forEach((anotherUnit) => {

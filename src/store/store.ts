@@ -1,15 +1,8 @@
-import { Unit, createUnit } from "./units";
+import { Storage } from "./../types";
+import { Unit } from "../types";
+import { currency, team } from "../../config/defaultConfig.json";
 
 export const units: Unit[] = [];
-
-export interface Storage {
-  units: any;
-  selectedWarrior?: string;
-  health?: number;
-  force?: number;
-  team: string;
-  coins: number;
-}
 
 export class Store {
   private static instance: Store;
@@ -17,11 +10,11 @@ export class Store {
   constructor(initialStore: Storage) {
     this.store = initialStore || {
       units: [],
-      team: "blue",
-      coins: 1000,
+      team,
+      coins: currency.initialMoney,
     };
 
-    this.store.selectedWarrior = "blue";
+    this.store.selectedWarrior = "gray";
     this.store.health = 200;
     this.store.force = 2;
   }

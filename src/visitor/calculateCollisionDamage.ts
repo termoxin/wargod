@@ -1,4 +1,5 @@
-import { Store } from "../store";
+import { Store } from "../store/store";
+import { currency } from "../../config/defaultConfig.json";
 
 export const calculateCollisionDamage = (unit, state, collisions) => {
   const collisionsIds = collisions.collisions.map((collision) => collision.id);
@@ -21,7 +22,7 @@ export const calculateCollisionDamage = (unit, state, collisions) => {
 
         if (unit.color === team) {
           instance.setState({
-            coins: coins + 2,
+            coins: coins + currency.killingReward,
           });
         }
       }
