@@ -1,9 +1,8 @@
 {
-  "moneyForKillingEnemy": 2,
   "agressionRadius": 10,
   "team": "blue",
   "currency": {
-    "startup": 1000,
+    "initialMoney": 1000,
     "killingReward": 2,
     "prices": {
       "violet": 15,

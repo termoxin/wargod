@@ -11,7 +11,7 @@ export class Store {
     this.store = initialStore || {
       units: [],
       team,
-      coins: currency.startup,
+      coins: currency.initialMoney,
     };
 
     this.store.selectedWarrior = "gray";
