@@ -11,6 +11,8 @@ app.appendChild(canvas);
 
 Store.getInstance();
 
+(window as any).store = Store.getInstance();
+
 export const globalCollision = {};
 
 const render = () => {

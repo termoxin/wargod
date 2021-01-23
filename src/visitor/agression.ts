@@ -12,6 +12,18 @@ interface AttackSpeed {
   right: number;
 }
 
+const aggresiveShouldAttack = (units, radiusToAttack, cb) => {
+  for (let i = radiusToAttack; i > 0; i--) {
+    const collisionResult = isCollision(cb(i), units);
+
+    if (!!collisionResult.collisions.length) {
+      return collisionResult;
+    }
+  }
+
+  return undefined;
+};
+
 export const attackNearestEnemy = (
   unit: AllUnits,
   units: AllUnits[],
@@ -22,33 +34,57 @@ export const attackNearestEnemy = (
   const filterUnits = (unit) => unit.color !== team && unit.color !== "violet";
 
   if (unit.color === team) {
-    const topCollision = isCollision(
-      { ...unit, y: unit.y - agressionRadius },
-      units
+    const topCollision = aggresiveShouldAttack(
+      units,
+      agressionRadius,
+      (value) => ({
+        ...unit,
+        y: unit.y - value,
+      })
     );
 
-    const top = topCollision.collisions.filter(filterUnits).length;
+    const top = topCollision
+      ? topCollision.collisions.filter(filterUnits).length
+      : false;
 
-    const bottomCollision = isCollision(
-      { ...unit, y: unit.y + agressionRadius },
-      units
+    const bottomCollision = aggresiveShouldAttack(
+      units,
+      agressionRadius,
+      (value) => ({
+        ...unit,
+        y: unit.y + value,
+      })
     );
 
-    const bottom = bottomCollision.collisions.filter(filterUnits).length;
+    const bottom = bottomCollision
+      ? bottomCollision.collisions.filter(filterUnits).length
+      : false;
 
-    const leftCollision = isCollision(
-      { ...unit, x: unit.x - agressionRadius },
-      units
+    const leftCollision = aggresiveShouldAttack(
+      units,
+      agressionRadius,
+      (value) => ({
+        ...unit,
+        x: unit.x - value,
+      })
     );
 
-    const left = leftCollision.collisions.filter(filterUnits).length;
+    const left = leftCollision
+      ? leftCollision.collisions.filter(filterUnits).length
+      : false;
 
-    const rightCollision = isCollision(
-      { ...unit, x: unit.x + agressionRadius },
-      units
+    const rightCollision = aggresiveShouldAttack(
+      units,
+      agressionRadius,
+      (value) => ({
+        ...unit,
+        x: unit.x + value,
+      })
     );
 
-    const right = rightCollision.collisions.filter(filterUnits).length;
+    const right = rightCollision
+      ? rightCollision.collisions.filter(filterUnits).length
+      : false;
 
     if (left && leftCollision.unit.id === unit.id) {
       unit.x -= attackSpeed.left;

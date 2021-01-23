@@ -28,6 +28,22 @@ export const visitor = ({ unit, units, globalCollision, localCollision }) => {
     } else if (unit.color === "blue" && shouldMove) {
       unit.x -= 0.1;
     }
+
+    if (unit.isBullet && unit.color === "blue") {
+      const target = units.find((u) => u.id === unit.targetId);
+
+      if (target?.x > unit.x) {
+        unit.x += 1;
+      } else {
+        unit.x -= 1;
+      }
+
+      if (target?.y > unit.y) {
+        unit.y += 1;
+      } else {
+        unit.y -= 1;
+      }
+    }
   }
 
   calculateCollisionDamage(unit, state, localCollision);

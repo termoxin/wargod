@@ -1,4 +1,4 @@
-import { Unit, AllUnits } from "./types";
+import { AllUnits } from "./types";
 
 interface IsCollisionOutput {
   unit: AllUnits;
