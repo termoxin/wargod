@@ -1,5 +1,5 @@
 {
-  "agressionRadius": 10,
+  "agressionRadius": 30,
   "team": "blue",
   "currency": {
     "initialMoney": 1000,

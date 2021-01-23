@@ -17,11 +17,17 @@ export interface Warrior extends Unit {
 
 export interface Turret extends Warrior {
   radius: number;
+  isReloading?: boolean;
+}
+
+export interface Bullet extends Warrior {
+  isBullet?: boolean;
+  targetId?: string;
 }
 
 export type GlobalColission = Record<string, AllUnits[]>;
 
-export type AllUnits = Unit & Turret & Warrior;
+export type AllUnits = Unit & Turret & Warrior & Bullet;
 
 export interface Storage {
   units: AllUnits[];

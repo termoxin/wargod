@@ -117,6 +117,8 @@ canvas.addEventListener("click", (event) => {
     units,
   } = Store.getInstance().getState();
   let warrior;
+  let moneyToSpend: number;
+  let bullet;
 
   if (selectedWarrior === "violet" && spendCoins(currency.prices.violet)) {
     warrior = createTurret({
@@ -128,7 +130,11 @@ canvas.addEventListener("click", (event) => {
       initialHeath: 50,
       width: 5,
       height: 8,
-      radius: 50,
+      radius: 100,
+    });
+
+    Store.getInstance().setState({
+      units: [...units],
     });
   } else if (selectedWarrior === "blue" || selectedWarrior === "gray") {
     if (selectedWarrior === "blue" && spendCoins(currency.prices.blue)) {
@@ -175,8 +181,16 @@ canvas.addEventListener("click", (event) => {
     !collisions.filter((col) => !col.withinRadius).length ||
     !collisions.length
   ) {
+    spendCoins(moneyToSpend);
+
+    const additionalUnits = [];
+
+    if (bullet) {
+      additionalUnits.push(bullet);
+    }
+
     Store.getInstance().setState({
-      units: [...units, warrior],
+      units: [...units, warrior, ...additionalUnits],
     });
   }
 });

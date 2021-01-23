@@ -14,7 +14,7 @@ export class Store {
       coins: currency.initialMoney,
     };
 
-    this.store.selectedWarrior = "gray";
+    this.store.selectedWarrior = "violet";
     this.store.health = 200;
     this.store.force = 2;
   }
